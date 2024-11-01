@@ -1,0 +1,49 @@
+services:
+  frontend:
+    build:
+      context: ./inventory_frontend 
+    container_name: frontend
+    restart: always
+    ports:
+      - 5173:5173
+    volumes:
+      - ./inventory_frontend:/app
+      - node_modules:/app/node_modules
+    networks:
+     - network
+
+  postgresdb:
+    image: postgres:latest
+    container_name: inventory_database
+    ports:
+      - 5432:5432
+    volumes:
+      - ./POSTGRES_DB:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_DB=${DB_NAME}
+    networks:
+     - network
+
+  backend-app:
+    build:
+      context: ./inventory_backend
+    container_name: inventory_backend
+    volumes:
+      - ./inventory_backend/src:/app/src
+    ports:
+      - 8080:8080
+    depends_on: 
+      - postgresdb
+    env_file:
+      - .env
+    networks:
+     - network
+
+
+volumes:
+  node_modules:
+
+networks:
+  network:
