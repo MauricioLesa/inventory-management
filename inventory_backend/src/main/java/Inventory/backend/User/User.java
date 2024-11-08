@@ -1,22 +1,42 @@
 package Inventory.backend.User;
 
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.List;
+import java.util.UUID;
+
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
-@ToString
+@Data
 @Entity
-@Table(name = "user")
-
-public class User implements Serializable {
+@Table(name = "users")
+@Builder
+public class User implements Serializable, UserDetails {
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="user_sequence")
-    @SequenceGenerator(name="user_sequence", sequenceName="user_sequence", allocationSize=100)
-    private Long id;
-    
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @SequenceGenerator(name = "user_sequence", sequenceName = "user_sequence", allocationSize = 100)
+    private UUID id;
+
+    @Nonnull
+    @Column(unique=true)
+    private String username;
+
+    @Nonnull
+    @Column(unique=true)
+    private String email;
+
+    @Nonnull
+    private String password;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of();
+    }
 }

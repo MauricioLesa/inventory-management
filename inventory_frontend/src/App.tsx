@@ -1,9 +1,16 @@
+import { Route, Routes } from "react-router-dom"
+import { Navbar } from "./Navbar/Navbar"
+import { Login } from "./Login/Login"
+
 const App = () => {
     
     return(
-        <div>
-            asd
-        </div>
+        <>
+            <Navbar/>
+            <Routes>
+                <Route path="login" element={<Login/>} />
+            </Routes>
+        </>
     )
 }
 
