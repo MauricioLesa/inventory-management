@@ -10,11 +10,9 @@ import Box from '@mui/material/Box';
 import { useState } from 'react';
 import MenuItem from '@mui/material/MenuItem';
 import { Link } from 'react-router-dom';
-import { Height } from '@mui/icons-material';
 
 
 export const Navbar = () => {
-    
     const pages = ['Blog'];
     const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
 
@@ -119,24 +117,24 @@ export const Navbar = () => {
           </Box>
 
           <Box sx={{width:"min-content", display:{ xs: 'none', md: 'flex' }}}>
+            <Link to={'/login'}>
             <Button
               key="login"
               onClick={handleCloseNavMenu}
               sx={{ my: 2, color: 'white', display: 'block' }}
             >
-              <Link to={'/login'}>
               login
-              </Link>
             </Button>
+              </Link>
+            <Link to={'/register'}>
             <Button
               key="register"
               onClick={handleCloseNavMenu}
               sx={{ my: 2, color: 'white', display: 'block' }}
             >
-              <Link to={'/register'}>
               register
-              </Link>
             </Button>
+              </Link>
           </Box>
         </Toolbar>
       </Container>

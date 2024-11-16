@@ -11,7 +11,7 @@ const App = () => {
             <div className="h-16">
             <Navbar/>
             </div>
-            <div className="">
+            <div>
                 <Routes>
                 <Route path="/login" element={<Login/>} />
                 <Route path="/register" element={<Register/>} />
