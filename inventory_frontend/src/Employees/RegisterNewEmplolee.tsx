@@ -1,10 +1,9 @@
-import { Box, Button, TextField } from "@mui/material"
-import { useState } from "react"
+import { Box, Button, MenuItem, TextField } from "@mui/material"
+import {  useState } from "react"
 
 
-export const Register = () => {
+export const RegisterNewEmployee = ({parentOrg}:{parentOrg?:string}) => {
 
-    const [organizationName,setOrganizationName ] = useState("");
     const [name,setName ] = useState("");
     const [lastName,setLastName ] = useState("");
     const [secondLastName,setSecondLastName ] = useState("");
@@ -12,6 +11,9 @@ export const Register = () => {
     const [password,setPassword ] = useState("");
     const [repeatPassword,setRepeatPassword ] = useState("");
 
+    const [nameError,setNameError ] = useState("");
+    const [lastNameError,setLastNameError ] = useState("");
+    const [secondLastNameError,setSecondLastNameError ] = useState("");
     const [emailError,setEmailError ] = useState("");
     const [passwordError,setPasswordError ] = useState("");
     const [repeatPasswordError,setRepeatPasswordError ] = useState("");
@@ -20,7 +22,36 @@ export const Register = () => {
 
     const style = "w-full "
     const rowStyle = "mt-5 "
+    const roles = ["inventarios","cuetnas"]
 
+    const  validateName = (nameInput:string):boolean => {
+        if(nameInput.split("").length > 10){
+            setNameError("nombre muy largo");
+            return false;
+        }
+        setNameError("");
+        setName(nameInput);
+        return true;
+    }
+
+    const  validateLastName = (lastNameInput:string):boolean => {
+        if(lastNameInput.split("").length > 10){
+            setLastNameError("apellido");
+            return false;
+        }
+        setLastNameError("");
+        setLastName(lastNameInput);
+        return true;
+    }
+    const  validateSecondLastName = (secondLastNameInput:string):boolean => {
+        if(secondLastNameInput.split("").length > 10){
+            setNameError("apellido");
+            return false;
+        }
+        setSecondLastNameError("");
+        setSecondLastName(secondLastNameInput);
+        return true;
+    }
     const  validateEmail = (emailInput:string):boolean => {
         setEmail(emailInput);
         setEmailError("");
@@ -54,7 +85,6 @@ export const Register = () => {
     const validate = () => {
     }
 
-
     return(
 
         <Box 
@@ -63,50 +93,42 @@ export const Register = () => {
         >
             <div className={rowStyle}>
                 <TextField  
-                    onChange={(e) => setOrganizationName(e.target.value)}
-                    slotProps={{htmlInput:{maxlength:30}}}
-                    value={organizationName}
-                    className={style}
-                    id="register-organization"
-                    label="Nombre de la organizacion"
-            />
-            </div>
-            <div className={rowStyle}>
-                <TextField  
-                    onChange={(e) => setName(e.target.value)}
-                    slotProps={{htmlInput:{maxlength:30}}}
+                    error={nameError!==""}
+                    onChange={(e) => validateName(e.target.value)}
                     value={name}
                     className={style}
                     id="register-name"
                     label="Nombre"
+                    helperText={nameError}
                 />
             </div>
                 <Box className={"flex gap-5 flex-wrap justify-between " + rowStyle}
                     sx={{gap:{lg:0}}}
                 >
                     <TextField 
-                        onChange={(e) => setLastName(e.target.value)} 
-                        slotProps={{htmlInput:{maxlength:30}}}
+                        onChange={(e) => validateLastName(e.target.value)} 
                         value={lastName} 
                         className={style}
                         sx={{width:{lg:"49%"}}}
+                        error={lastNameError!==""}
                         id="register-last-name"
                         label="Apellido Paterno"
+                        helperText={lastNameError}
                     />
                     <TextField  
-                        onChange={(e) => setSecondLastName(e.target.value)}
-                        slotProps={{htmlInput:{maxlength:30}}}
+                        onChange={(e) => validateSecondLastName(e.target.value)}
                         value={secondLastName}
                         className={style + rowStyle}
                         sx={{width:{lg:"49%"}}}
+                        error={secondLastNameError!==""}
                         id="register-second-last-name"
                         label="Apellido Materno"
+                        helperText={secondLastNameError}
                     />
                 </Box>
                 <div className={rowStyle}>
                 <TextField  
                     type="email"
-                    slotProps={{htmlInput:{maxlength:100}}}
                     onChange={(e) => validateEmail(e.target.value)}
                     value={email}
                     className={style}
@@ -119,7 +141,6 @@ export const Register = () => {
                 <div className={rowStyle}>
                 <TextField  
                     type="password"
-                    slotProps={{htmlInput:{maxlength:30}}}
                     onChange={(e) => validatePassword(e.target.value)}
                     value={password}
                     className={style}
@@ -132,7 +153,6 @@ export const Register = () => {
                 <div className={rowStyle}>
                 <TextField  
                     type="password"
-                    slotProps={{htmlInput:{maxlength:30}}}
                     onChange={(e) => updateRepeatPassword(e.target.value)}
                     value={repeatPassword}
                     className={style}
@@ -141,6 +161,22 @@ export const Register = () => {
                     label="Repita su contrasena"
                     helperText={repeatPasswordError}
                 />
+                </div>
+                <div className={rowStyle}>
+                <TextField
+                className={style}
+                    id="register-role"
+                    select
+                    label="rol"
+                    defaultValue={roles[0]}
+                    helperText="Seleccione el rol"
+                    >
+                    {roles.map((option) => (
+                        <MenuItem key={option} value={option}>
+                        {option}
+                        </MenuItem>
+                    ))}
+                </TextField>
                 </div>
                 <div className={"mx-auto w-full "+ rowStyle}>
                     <Button variant="outlined"

@@ -13,7 +13,6 @@ import { Link } from 'react-router-dom';
 
 
 export const Navbar = () => {
-    const pages = ['Blog'];
     const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
 
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -72,11 +71,11 @@ export const Navbar = () => {
               onClose={handleCloseNavMenu}
               sx={{ display: { xs: 'block', md: 'none' } }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography sx={{ textAlign: 'center' }}>{page}</Typography>
-                </MenuItem>
-              ))}
+
+              <MenuItem key={"admin employees"} onClick={handleCloseNavMenu}>
+                <Typography sx={{ textAlign: 'center' }}>{"empleados"}</Typography>
+              </MenuItem>
+
                 <MenuItem key={"login"} onClick={handleCloseNavMenu}>
                   <Typography sx={{ textAlign: 'center' }}>{"login"}</Typography>
                 </MenuItem>
@@ -105,15 +104,15 @@ export const Navbar = () => {
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
+            <Link to={'/employees'}>
               <Button
-                key={page}
+                key="employees"
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                {page}
+                empleados
               </Button>
-            ))}
+              </Link>
           </Box>
 
           <Box sx={{width:"min-content", display:{ xs: 'none', md: 'flex' }}}>
