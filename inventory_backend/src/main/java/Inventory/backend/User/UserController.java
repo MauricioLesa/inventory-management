@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin("*")
 public class UserController {
 
     private final AuthService authService;
@@ -27,11 +26,14 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<Void> register(@RequestBody RegisterRequest registerRequest) {
-        authService.register(registerRequest.email(),registerRequest.password(), registerRequest.username());
+        authService.register(
+                registerRequest.email(),registerRequest.password(), registerRequest.username(),
+                registerRequest.name(), registerRequest.middleName(), registerRequest.lastName()
+        );
         return ResponseEntity.ok().build();
     }
 
-    public record RegisterRequest(String username,String email, String password) {
+    public record RegisterRequest(String username,String email, String password, String name, String middleName, String lastName) {
     }
 
 

@@ -1,5 +1,7 @@
 import { Box, Button, TextField } from "@mui/material"
+import axios from "axios";
 import { useState } from "react"
+import { BACKENDURL } from "../GlobalVariables";
 
 
 export const Register = () => {
@@ -7,7 +9,7 @@ export const Register = () => {
     const [organizationName,setOrganizationName ] = useState("");
     const [name,setName ] = useState("");
     const [lastName,setLastName ] = useState("");
-    const [secondLastName,setSecondLastName ] = useState("");
+    const [middleName,setMiddleName ] = useState("");
     const [email,setEmail ] = useState("");
     const [password,setPassword ] = useState("");
     const [repeatPassword,setRepeatPassword ] = useState("");
@@ -16,6 +18,22 @@ export const Register = () => {
     const [passwordError,setPasswordError ] = useState("");
     const [repeatPasswordError,setRepeatPasswordError ] = useState("");
 
+
+    const saveUser = async () => {
+        try {
+            let data = {
+                username:organizationName,
+                email:email, 
+                password:password, 
+                name:name, 
+                middleName:middleName, 
+                lastName:lastName
+            };
+            axios.post(BACKENDURL+"/register",data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
 
     const style = "w-full "
@@ -52,6 +70,7 @@ export const Register = () => {
     }
 
     const validate = () => {
+        saveUser();
     }
 
 
@@ -94,9 +113,9 @@ export const Register = () => {
                         label="Apellido Paterno"
                     />
                     <TextField  
-                        onChange={(e) => setSecondLastName(e.target.value)}
+                        onChange={(e) => setMiddleName(e.target.value)}
                         slotProps={{htmlInput:{maxlength:30}}}
-                        value={secondLastName}
+                        value={middleName}
                         className={style + rowStyle}
                         sx={{width:{lg:"49%"}}}
                         id="register-second-last-name"

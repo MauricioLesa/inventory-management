@@ -31,12 +31,15 @@ public class AuthService {
         SecurityContextHolder.setContext(context);
     }
 
-    public void register(String email, String password, String username){
+    public void register(String email, String password, String username, String name, String middleName, String lastName){
         String cryptPassword = passwordEncoder.encode(password);
         if (repository.findByEmail(email).isPresent() || repository.findByUsername(username).isPresent())
             throw new KeyAlreadyExistsException();
         repository.save(User.builder()
                 .email(email)
+                .name(name)
+                .middleName(middleName)
+                .lastName(lastName)
                 .password(cryptPassword)
                 .username(username)
                 .build());
