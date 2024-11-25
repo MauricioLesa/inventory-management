@@ -1,7 +1,7 @@
 import { Box, Button, TextField } from "@mui/material"
-import axios from "axios";
 import { useState } from "react"
-import { BACKENDURL } from "../GlobalVariables";
+import { saveUser } from "../APIs/AuthAPI";
+
 
 
 export const Register = () => {
@@ -19,21 +19,6 @@ export const Register = () => {
     const [repeatPasswordError,setRepeatPasswordError ] = useState("");
 
 
-    const saveUser = async () => {
-        try {
-            let data = {
-                username:organizationName,
-                email:email, 
-                password:password, 
-                name:name, 
-                middleName:middleName, 
-                lastName:lastName
-            };
-            axios.post(BACKENDURL+"/register",data);
-        } catch (error) {
-            console.log(error);
-        }
-    }
 
 
     const style = "w-full "
@@ -70,7 +55,14 @@ export const Register = () => {
     }
 
     const validate = () => {
-        saveUser();
+        saveUser({
+            organizationName:organizationName,
+            email:email, 
+            password:password, 
+            name:name, 
+            middleName:middleName, 
+            lastName:lastName
+        });
     }
 
 
@@ -83,7 +75,7 @@ export const Register = () => {
             <div className={rowStyle}>
                 <TextField  
                     onChange={(e) => setOrganizationName(e.target.value)}
-                    slotProps={{htmlInput:{maxlength:30}}}
+                    slotProps={{htmlInput:{maxLength:30}}}
                     value={organizationName}
                     className={style}
                     id="register-organization"
@@ -93,7 +85,7 @@ export const Register = () => {
             <div className={rowStyle}>
                 <TextField  
                     onChange={(e) => setName(e.target.value)}
-                    slotProps={{htmlInput:{maxlength:30}}}
+                    slotProps={{htmlInput:{maxLength:30}}}
                     value={name}
                     className={style}
                     id="register-name"
@@ -105,7 +97,7 @@ export const Register = () => {
                 >
                     <TextField 
                         onChange={(e) => setLastName(e.target.value)} 
-                        slotProps={{htmlInput:{maxlength:30}}}
+                        slotProps={{htmlInput:{maxLength:30}}}
                         value={lastName} 
                         className={style}
                         sx={{width:{lg:"49%"}}}
@@ -114,7 +106,7 @@ export const Register = () => {
                     />
                     <TextField  
                         onChange={(e) => setMiddleName(e.target.value)}
-                        slotProps={{htmlInput:{maxlength:30}}}
+                        slotProps={{htmlInput:{maxLength:30}}}
                         value={middleName}
                         className={style + rowStyle}
                         sx={{width:{lg:"49%"}}}
@@ -125,7 +117,7 @@ export const Register = () => {
                 <div className={rowStyle}>
                 <TextField  
                     type="email"
-                    slotProps={{htmlInput:{maxlength:100}}}
+                    slotProps={{htmlInput:{maxLength:100}}}
                     onChange={(e) => validateEmail(e.target.value)}
                     value={email}
                     className={style}
@@ -138,7 +130,7 @@ export const Register = () => {
                 <div className={rowStyle}>
                 <TextField  
                     type="password"
-                    slotProps={{htmlInput:{maxlength:30}}}
+                    slotProps={{htmlInput:{maxLength:30}}}
                     onChange={(e) => validatePassword(e.target.value)}
                     value={password}
                     className={style}
@@ -151,7 +143,7 @@ export const Register = () => {
                 <div className={rowStyle}>
                 <TextField  
                     type="password"
-                    slotProps={{htmlInput:{maxlength:30}}}
+                    slotProps={{htmlInput:{maxLength:30}}}
                     onChange={(e) => updateRepeatPassword(e.target.value)}
                     value={repeatPassword}
                     className={style}

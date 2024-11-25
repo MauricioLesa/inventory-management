@@ -7,7 +7,7 @@ export const EmployeeCard = ({employee}:{employee:Employee}) => {
 
     return (
         <>
-        <ListItem className='flex'>
+        <ListItem  className='flex'>
             <ListItemAvatar>
                 <Avatar>
                     <AccountCircleOutlinedIcon/>

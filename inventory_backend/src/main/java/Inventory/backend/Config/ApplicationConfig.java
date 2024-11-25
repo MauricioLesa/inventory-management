@@ -11,6 +11,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.security.web.context.SecurityContextRepository;
 
 @RequiredArgsConstructor
 @Configuration
@@ -30,11 +32,16 @@ public class ApplicationConfig
 
     @Bean
     public UserDetailsService userDetailsService(){
-        return email -> userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("no se encontro al usuario"));
+        return email -> userRepository.findByUsername(email).orElseThrow(() -> new UsernameNotFoundException("no se encontro al usuario"));
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public SecurityContextRepository securityContextRepository(){
+        return new HttpSessionSecurityContextRepository();
     }
 }

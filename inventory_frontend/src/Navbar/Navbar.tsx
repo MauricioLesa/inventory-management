@@ -10,133 +10,170 @@ import Box from '@mui/material/Box';
 import { useState } from 'react';
 import MenuItem from '@mui/material/MenuItem';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '../Redux/Store';
 
 
 export const Navbar = () => {
-    const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+  const user = useSelector((state:RootState) => state.user);
 
-    const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorElNav(event.currentTarget);
-      };
+  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElNav(event.currentTarget);
+  };
 
-      const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
-      };
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
 
-    return(
-      <AppBar sx={{height:64}}>
-      <Container maxWidth={false}>
-        <Toolbar>
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            sx={{
-              mr: 2,
-              display: { xs: 'flex', md: 'none' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
+  let pages:{ name: string; link: string; }[] = []
+
+  let auth:{ name: string; link: string; }[] = []
+
+  if(user.logged){
+    pages = [
+      {
+        name:"empleados",
+        link:"/employees"
+      }
+    ]
+    auth = [
+      {
+        name:"Usuario",
+        link:"/User"
+      }
+    ]
+  }
+  else{
+    auth = [
+      {
+        name:"login",
+        link:"/login"
+      },
+      {
+        name:"regirtrarse",
+        link:"/register"
+      }
+    ]
+  }
+
+  return(
+    <AppBar sx={{height:64}}>
+    <Container maxWidth={false}>
+      <Toolbar>
+        <Typography
+          variant="h6"
+          noWrap
+          component="a"
+          href="#app-bar-with-responsive-menu"
+          sx={{
+            mr: 2,
+            display: { xs: 'flex', md: 'none' },
+            fontFamily: 'monospace',
+            fontWeight: 700,
+            letterSpacing: '.3rem',
+            color: 'inherit',
+            textDecoration: 'none',
+          }}
+        >
+          INVENTARIOS
+        </Typography>
+
+        <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <IconButton
+            size="large"
+            aria-controls="menu-appbar"
+            aria-haspopup="true"
+            onClick={handleOpenNavMenu}
+            color="inherit"
           >
-            LOGO
-          </Typography>
-
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size="large"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{ display: { xs: 'block', md: 'none' } }}
-            >
-
-              <MenuItem key={"admin employees"} onClick={handleCloseNavMenu}>
-                <Typography sx={{ textAlign: 'center' }}>{"empleados"}</Typography>
-              </MenuItem>
-
-                <MenuItem key={"login"} onClick={handleCloseNavMenu}>
-                  <Typography sx={{ textAlign: 'center' }}>{"login"}</Typography>
-                </MenuItem>
-                <MenuItem key={"register"} onClick={handleCloseNavMenu}>
-                  <Typography sx={{ textAlign: 'center' }}>{"register"}</Typography>
-                </MenuItem>
-            </Menu>
-          </Box>
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            sx={{
-              mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              flexGrow: 1,
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
+            <MenuIcon />
+          </IconButton>
+          <Menu
+            id="menu-appbar"
+            anchorEl={anchorElNav}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
             }}
+            keepMounted
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'left',
+            }}
+            open={Boolean(anchorElNav)}
+            onClose={handleCloseNavMenu}
+            sx={{ display: { xs: 'block', md: 'none' } }}
           >
-            LOGO
-          </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            <Link to={'/employees'}>
+            {
+              pages.map(page => (
+                <MenuItem key={page.name} onClick={handleCloseNavMenu}>
+                  <Link to={page.name}>
+                    <Typography sx={{ textAlign: 'center' }}>{page.name}</Typography>
+                  </Link>
+                </MenuItem>
+              ))
+            }
+
+          </Menu>
+        </Box>
+        <Typography
+          variant="h5"
+          noWrap
+          component="a"
+          href="#app-bar-with-responsive-menu"
+          sx={{
+            mr: 2,
+            display: { xs: 'none', md: 'flex' },
+            flexGrow: 1,
+            fontFamily: 'monospace',
+            fontWeight: 700,
+            letterSpacing: '.3rem',
+            color: 'inherit',
+            textDecoration: 'none',
+          }}
+        >
+          INVENTARIOS
+        </Typography>
+
+
+        <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+        {
+          pages.map(page => (
+            <Link key={page.name} to={page.link}>
               <Button
-                key="employees"
+                key={page.name}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                empleados
+                {page.name}
               </Button>
-              </Link>
-          </Box>
+            </Link>
+          ))
+        }
+        </Box>
+        
+          
+        
 
-          <Box sx={{width:"min-content", display:{ xs: 'none', md: 'flex' }}}>
-            <Link to={'/login'}>
-            <Button
-              key="login"
-              onClick={handleCloseNavMenu}
-              sx={{ my: 2, color: 'white', display: 'block' }}
-            >
-              login
-            </Button>
+        <Box sx={{width:"min-content", display:{ xs: 'none', md: 'flex' }}}>
+          {
+            auth.map(auth => (
+              <Link key={auth.name} to={auth.link}>
+                <Button
+                  key={auth.name}
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                >
+                  {auth.name}
+                </Button>
               </Link>
-            <Link to={'/register'}>
-            <Button
-              key="register"
-              onClick={handleCloseNavMenu}
-              sx={{ my: 2, color: 'white', display: 'block' }}
-            >
-              register
-            </Button>
-              </Link>
-          </Box>
-        </Toolbar>
-      </Container>
-    </AppBar>
-    )
+            ))
+          }
+        </Box>
+      </Toolbar>
+    </Container>
+  </AppBar>
+  )
 }

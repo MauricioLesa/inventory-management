@@ -3,7 +3,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { EmployeeCard } from "./EmployeeCard"
 import { Employee } from "./Employees"
 import { NewEmployeeModal } from "./NewEmployeeModal";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 
  
  export const EmployeeList = ({employees}:{employees:Employee[]} ) => {
@@ -29,9 +29,9 @@ import { useState } from "react";
             </div>
             <List sx={{width:"60vw", bgcolor: 'background.paper', margin:"0 auto" }}>
                 {employees.map((employee, id) => (
-                    <>
-                        {<EmployeeCard key={id} employee={employee} />}
-                    </>
+                    <Fragment key={id}>
+                        {<EmployeeCard  employee={employee} />}
+                    </Fragment>
                 )) }
             </List >
         </div>

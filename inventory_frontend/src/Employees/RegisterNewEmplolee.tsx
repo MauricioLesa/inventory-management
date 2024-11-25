@@ -1,19 +1,20 @@
 import { Box, Button, MenuItem, TextField } from "@mui/material"
 import {  useState } from "react"
+import { saveUser } from "../APIs/AuthAPI";
 
 
-export const RegisterNewEmployee = ({parentOrg}:{parentOrg?:string}) => {
+export const RegisterNewEmployee = ({parentOrg}:{parentOrg:string}) => {
 
     const [name,setName ] = useState("");
     const [lastName,setLastName ] = useState("");
-    const [secondLastName,setSecondLastName ] = useState("");
+    const [middleName,setMiddleName ] = useState("");
     const [email,setEmail ] = useState("");
     const [password,setPassword ] = useState("");
     const [repeatPassword,setRepeatPassword ] = useState("");
 
     const [nameError,setNameError ] = useState("");
     const [lastNameError,setLastNameError ] = useState("");
-    const [secondLastNameError,setSecondLastNameError ] = useState("");
+    const [middleNameError,setMiddleNameError ] = useState("");
     const [emailError,setEmailError ] = useState("");
     const [passwordError,setPasswordError ] = useState("");
     const [repeatPasswordError,setRepeatPasswordError ] = useState("");
@@ -43,13 +44,13 @@ export const RegisterNewEmployee = ({parentOrg}:{parentOrg?:string}) => {
         setLastName(lastNameInput);
         return true;
     }
-    const  validateSecondLastName = (secondLastNameInput:string):boolean => {
-        if(secondLastNameInput.split("").length > 10){
+    const  validatemiddleName = (middleNameInput:string):boolean => {
+        if(middleNameInput.split("").length > 10){
             setNameError("apellido");
             return false;
         }
-        setSecondLastNameError("");
-        setSecondLastName(secondLastNameInput);
+        setMiddleNameError("");
+        setMiddleName(middleNameInput);
         return true;
     }
     const  validateEmail = (emailInput:string):boolean => {
@@ -83,6 +84,14 @@ export const RegisterNewEmployee = ({parentOrg}:{parentOrg?:string}) => {
     }
 
     const validate = () => {
+        saveUser({
+            organizationName:parentOrg,
+            email:email, 
+            password:password, 
+            name:name, 
+            middleName:middleName, 
+            lastName:lastName
+        });
     }
 
     return(
@@ -116,14 +125,14 @@ export const RegisterNewEmployee = ({parentOrg}:{parentOrg?:string}) => {
                         helperText={lastNameError}
                     />
                     <TextField  
-                        onChange={(e) => validateSecondLastName(e.target.value)}
-                        value={secondLastName}
+                        onChange={(e) => validatemiddleName(e.target.value)}
+                        value={middleName}
                         className={style + rowStyle}
                         sx={{width:{lg:"49%"}}}
-                        error={secondLastNameError!==""}
+                        error={middleNameError!==""}
                         id="register-second-last-name"
                         label="Apellido Materno"
-                        helperText={secondLastNameError}
+                        helperText={middleNameError}
                     />
                 </Box>
                 <div className={rowStyle}>
@@ -158,7 +167,7 @@ export const RegisterNewEmployee = ({parentOrg}:{parentOrg?:string}) => {
                     className={style}
                     error={repeatPasswordError!==""}
                     id="register-password-repeat"
-                    label="Repita su contrasena"
+                    label="Repita su contraseña"
                     helperText={repeatPasswordError}
                 />
                 </div>
