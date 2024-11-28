@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux"
 import { loadUser } from "./APIs/AuthAPI"
 import { updateUserAction } from "./Redux/UserSlice"
 import { User } from "./User/User"
+import { Inventory } from "./Inventory/Inventory"
 
 
 
@@ -27,21 +28,24 @@ const App = () => {
     },[])
  
     return(
-        <div className="w-screen h-screen flex flex-col flex-grow">
+        <div className="w-screen min-h-screen flex flex-col">
             <BrowserRouter>  
             <div className="h-16">
             <Navbar/>
             </div>
-            <div>
+            <div className="flex-1">
                 <Routes>
                 <Route path="/login" element={<Login/>} />
                 <Route path="/employees" element={<Employees/>} />
                 <Route path="/register" element={<Register/>} />
                 <Route path="/user" element={<User/>} />
+                <Route path="/inventory" element={<Inventory/>} />
                 </Routes>
             </div>
             </BrowserRouter>
-
+            <div className="h-20">
+                footer
+            </div>
         </div>
     )
 }

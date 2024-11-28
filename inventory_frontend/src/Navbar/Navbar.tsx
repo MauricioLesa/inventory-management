@@ -35,6 +35,10 @@ export const Navbar = () => {
       {
         name:"empleados",
         link:"/employees"
+      },
+      {
+        name:"inventario",
+        link:"/inventory"
       }
     ]
     auth = [
